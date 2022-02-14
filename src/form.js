@@ -9,18 +9,17 @@ function login(event) {
    event.preventDefault();
    usernameValue = username.value;
    passwordValue = password.value;
+   let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
    let ifSendData = true;
 
    if (
-     usernameValue.length === 0 ||
-     usernameValue.indexOf("@") === -1 ||
-     usernameValue.indexOf(".") === -1
+    !(regex.test(usernameValue))
    ) {
-     usernameMsg.innerHTML = "please enter a valid email";
+     usernameMsg.innerText = "please enter a valid email";
      ifSendData = false;
    }
    if (passwordValue.length <= 4) {
-       passwordMsg.innerHTML = "your password is too short. it shoud contain at least 5 characters"
+       passwordMsg.innerText = "your password is too short. it shoud contain at least 5 characters"
        ifSendData = false;
    }
 
@@ -41,7 +40,9 @@ function login(event) {
          .then((response) => {
              if (response.ok) {
                  let result = document.querySelector(".final-msg");
-                 result.innerHTML = "you are registerd successfully"
+                 result.innerHTML = "you are registerd successfully";
+                 passwordMsg.innerText = "";
+                 usernameMsg.innerText = ""
              }
          })
 
